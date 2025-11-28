@@ -1,0 +1,426 @@
+# ====================================
+# Sistema de Menu de Kits
+# ====================================
+#
+# Placeholders disponíveis:
+# - {kit_status} - Status do kit (disponível ou cooldown)
+#
+# Ações disponíveis:
+# - [menu] <nome> - Abre outro menu
+# - [sound] <som> - Toca um som
+# - [kit] <nome> - Dá o kit ao jogador
+# - [command] <comando> - Executa um comando
+# - [close] - Fecha o inventário
+# - [message] <mensagem> - Envia uma mensagem
+#
+# Clique Direito em um item com 'kit:' definido abre o preview
+# ====================================
+
+menus:
+  # Menu Principal
+  principal:
+    title: '&8Kits'
+    size: 27
+
+    items:
+      # Kit Ranks
+      ranks:
+        slot: 11
+        material: DIAMOND
+        name: '&b&lKits - Ranks'
+        lore:
+          - '&7Acessa o menu de kits'
+          - '&7de ranks do servidor.'
+          - ''
+          - '&aClica para acessar'
+        action:
+          - '[menu] kits-ranks'
+          - '[sound] NOTE_PLING'
+
+      # Kit VIPs
+      vips:
+        slot: 13
+        material: EMERALD
+        name: '&6&lKits - VIPs'
+        lore:
+          - '&7Acessa o menu de kits'
+          - '&7VIP do servidor.'
+          - ''
+          - '&aClica para acessar'
+        action:
+          - '[menu] kits-vips'
+          - '[sound] NOTE_PLING'
+
+      # Kit Outros
+      outros:
+        slot: 15
+        material: IRON_INGOT
+        name: '&e&lKits - Outros'
+        lore:
+          - '&7Acessa o menu de'
+          - '&7outros kits.'
+          - ''
+          - '&aClica para acessar'
+        action:
+          - '[menu] kits-outros'
+          - '[sound] NOTE_PLING'
+
+      # Decoração
+      vidro1:
+        slot: 0
+        material: STAINED_GLASS_PANE
+        name: ' '
+        lore: []
+        action: []
+
+      vidro2:
+        slot: 1
+        material: STAINED_GLASS_PANE
+        name: ' '
+        lore: []
+        action: []
+
+      vidro3:
+        slot: 9
+        material: STAINED_GLASS_PANE
+        name: ' '
+        lore: []
+        action: []
+
+      vidro4:
+        slot: 17
+        material: STAINED_GLASS_PANE
+        name: ' '
+        lore: []
+        action: []
+
+      vidro5:
+        slot: 18
+        material: STAINED_GLASS_PANE
+        name: ' '
+        lore: []
+        action: []
+
+      vidro6:
+        slot: 26
+        material: STAINED_GLASS_PANE
+        name: ' '
+        lore: []
+        action: []
+
+  # ====================================
+  # Menu de Kits - Outros
+  # ====================================
+  kits-outros:
+    title: '&8Kits - Outros'
+    size: 27
+
+    items:
+      # Kit Básico
+      basico:
+        slot: 10
+        kit: 'basico'
+        material: STONE_SWORD
+        name: '&7Kit Básico'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] basico'
+
+      # Kit Diário
+      diario:
+        slot: 12
+        kit: 'diario'
+        material: CHEST
+        name: '&aKit Diário'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] diario'
+
+      # Kit Minerador
+      minerador:
+        slot: 14
+        kit: 'minerador'
+        material: DIAMOND_PICKAXE
+        name: '&bKit Minerador'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] minerador'
+
+      # Kit Construtor
+      construtor:
+        slot: 16
+        kit: 'construtor'
+        material: BRICK
+        name: '&eKit Construtor'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] construtor'
+
+      # Botão Voltar
+      voltar:
+        slot: 22
+        material: ARROW
+        name: '&cVoltar'
+        lore:
+          - '&7Clique para voltar ao'
+          - '&7menu principal'
+        action:
+          - '[menu] principal'
+          - '[sound] CLICK'
+
+  # ====================================
+  # Menu de Kits - VIPs
+  # ====================================
+  kits-vips:
+    title: '&8Kits - VIPs'
+    size: 27
+
+    items:
+      # Kit VIP
+      vip:
+        slot: 10
+        kit: 'vip'
+        material: GOLD_INGOT
+        name: '&6Kit VIP'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] vip'
+
+      # Kit VIP+
+      vipplus:
+        slot: 12
+        kit: 'vipplus'
+        material: GOLD_BLOCK
+        name: '&6Kit VIP&e+'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] vipplus'
+
+      # Kit MVP
+      mvp:
+        slot: 14
+        kit: 'mvp'
+        material: DIAMOND
+        name: '&bKit MVP'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] mvp'
+
+      # Kit MVP+
+      mvpplus:
+        slot: 16
+        kit: 'mvpplus'
+        material: DIAMOND_BLOCK
+        name: '&bKit MVP&3+'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] mvpplus'
+
+      # Botão Voltar
+      voltar:
+        slot: 22
+        material: ARROW
+        name: '&cVoltar'
+        lore:
+          - '&7Clique para voltar ao'
+          - '&7menu principal'
+        action:
+          - '[menu] principal'
+          - '[sound] CLICK'
+
+      # Informação VIP
+      info:
+        slot: 4
+        material: BOOK
+        name: '&e&lComo obter VIP?'
+        lore:
+          - '&7Adquira seu VIP em:'
+          - '&floja.seuservidor.com'
+          - ''
+          - '&7Benefícios exclusivos:'
+          - '&8• &aKits exclusivos'
+          - '&8• &aMais recursos'
+          - '&8• &aSupporte prioritário'
+        action:
+          - '[sound] ORB_PICKUP'
+
+  # ====================================
+  # Menu de Kits - Ranks
+  # ====================================
+  kits-ranks:
+    title: '&8Kits - Ranks'
+    size: 27
+
+    items:
+      # Kit Membro
+      membro:
+        slot: 10
+        kit: 'membro'
+        material: WOOD_SWORD
+        name: '&7Kit Membro'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] membro'
+
+      # Kit Iniciante
+      iniciante:
+        slot: 11
+        kit: 'iniciante'
+        material: STONE_SWORD
+        name: '&fKit Iniciante'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] iniciante'
+
+      # Kit Experiente
+      experiente:
+        slot: 12
+        kit: 'experiente'
+        material: IRON_SWORD
+        name: '&aKit Experiente'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] experiente'
+
+      # Kit Avançado
+      avancado:
+        slot: 13
+        kit: 'avancado'
+        material: GOLD_SWORD
+        name: '&eKit Avançado'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] avancado'
+
+      # Kit Expert
+      expert:
+        slot: 14
+        kit: 'expert'
+        material: DIAMOND_SWORD
+        name: '&bKit Expert'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] expert'
+
+      # Kit Mestre
+      mestre:
+        slot: 15
+        kit: 'mestre'
+        material: DIAMOND_SWORD
+        name: '&6Kit Mestre'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] mestre'
+
+      # Kit Lendário
+      lendario:
+        slot: 16
+        kit: 'lendario'
+        material: NETHER_STAR
+        name: '&5Kit Lendário'
+        lore:
+          - ''
+          - '{kit_status}'
+          - ''
+          - '&eBotão-Direito para ver'
+        action:
+          - '[sound] NOTE_PLING'
+          - '[kit] lendario'
+
+      # Botão Voltar
+      voltar:
+        slot: 22
+        material: ARROW
+        name: '&cVoltar'
+        lore:
+          - '&7Clique para voltar ao'
+          - '&7menu principal'
+        action:
+          - '[menu] principal'
+          - '[sound] CLICK'
+
+      # Informação Ranks
+      info:
+        slot: 4
+        material: BOOK
+        name: '&e&lComo upar de rank?'
+        lore:
+          - '&7Jogue no servidor e complete'
+          - '&7desafios para evoluir!'
+          - ''
+          - '&7Cada rank desbloqueia:'
+          - '&8• &aKits mais poderosos'
+          - '&8• &aMais permissões'
+          - '&8• &aRecompensas exclusivas'
+        action:
+          - '[sound] ORB_PICKUP'

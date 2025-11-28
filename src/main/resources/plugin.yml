@@ -1,0 +1,7 @@
+name: cah-essentials
+version: '${project.version}'
+main: github.dimazbtw.essentials.Main
+api-version: 1.16
+authors: [ dimaz ]
+depend: [ cah-lib ]
+softdepend: [ PlaceholderAPI ]

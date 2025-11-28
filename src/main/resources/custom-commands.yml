@@ -1,0 +1,201 @@
+# Sistema de Comandos Customizados
+#
+# Tipos de comandos:
+# - MESSAGE: Envia mensagens ao jogador
+# - COMMAND: Executa um único comando
+# - COMMANDS: Executa múltiplos comandos
+#
+# Placeholders disponíveis:
+# Para mensagens: {player}, {displayname}, {world}, {x}, {y}, {z}, {online}, {max_players}
+# Para comandos: {player}, {uuid}, {world}, {arg0}, {arg1}, {args}
+
+commands:
+  # Comando de Discord - Envia mensagens
+  discord:
+    enabled: true
+    permission: ""  # Vazio = todos podem usar
+    aliases:
+      - dc
+    type: MESSAGE
+    messages:
+      - ""
+      - "&b&l⚡ Discord"
+      - "&7Entre no nosso Discord:"
+      - "&fhttps://discord.gg/exemplo"
+      - ""
+
+  # Comando de Site
+  site:
+    enabled: true
+    permission: ""
+    aliases:
+      - website
+      - web
+    type: MESSAGE
+    messages:
+      - "&6Nosso site: &fhttps://exemplo.com"
+
+  # Comando de Loja
+  loja:
+    enabled: true
+    permission: ""
+    aliases:
+      - shop
+      - store
+    type: MESSAGE
+    messages:
+      - ""
+      - "&6&l⭐ Loja VIP"
+      - "&7Adquira VIPs e benefícios:"
+      - "&fhttps://loja.exemplo.com"
+      - ""
+
+  # Comando de Regras
+  regras:
+    enabled: true
+    permission: ""
+    aliases:
+      - rules
+    type: MESSAGE
+    messages:
+      - ""
+      - "&c&l⚠ Regras do Servidor"
+      - "&71. &fNão use hacks ou trapaças"
+      - "&72. &fRespeite todos os jogadores"
+      - "&73. &fNão faça spam no chat"
+      - "&74. &fNão divulgue outros servidores"
+      - "&75. &fSiga as orientações da staff"
+      - ""
+
+  # Comando que executa outro comando
+  spawn:
+    enabled: true
+    permission: ""
+    aliases: []
+    type: COMMAND
+    command: "tp {player} world 0 100 0"
+
+  # Comando VIP - Executa múltiplos comandos
+  vip:
+    enabled: true
+    permission: "vip"
+    aliases: []
+    type: COMMANDS
+    commands:
+      - "give {player} diamond 1"
+      - "give {player} emerald 5"
+      - "tell {player} &aVocê recebeu seu kit VIP!"
+
+  # Comando de informações do jogador
+  info:
+    enabled: true
+    permission: ""
+    aliases:
+      - playerinfo
+    type: MESSAGE
+    messages:
+      - ""
+      - "&6&lSuas Informações:"
+      - "&7Nome: &f{player}"
+      - "&7Mundo: &f{world}"
+      - "&7Posição: &f{x}, {y}, {z}"
+      - "&7Jogadores online: &f{online}/{max_players}"
+      - ""
+
+  # Comando de teleporte para outro jogador (com argumentos)
+  tpto:
+    enabled: true
+    permission: "admin"
+    aliases: []
+    type: COMMAND
+    command: "tp {player} {arg0}"
+
+  # Comando para dar item (com argumentos)
+  daritem:
+    enabled: true
+    permission: "admin"
+    aliases:
+      - giveitem
+    type: COMMAND
+    command: "give {player} {arg0} {arg1}"
+
+  # Comando de boas-vindas personalizado
+  boasvindas:
+    enabled: true
+    permission: ""
+    aliases:
+      - welcome
+      - bemvindo
+    type: MESSAGE
+    messages:
+      - ""
+      - "&a&l✓ Bem-vindo(a) ao servidor, {player}!"
+      - ""
+      - "&7Comandos úteis:"
+      - "&f/regras &7- Ver as regras"
+      - "&f/discord &7- Nosso Discord"
+      - "&f/loja &7- Loja VIP"
+      - ""
+
+  # Comando de anúncio (staff)
+  anunciar:
+    enabled: true
+    permission: "staff"
+    aliases:
+      - broadcast
+      - bc
+    type: COMMAND
+    command: "say &6[ANÚNCIO] &f{args}"
+
+  # Comando de GM1
+  gm1:
+    enabled: true
+    permission: "admin"
+    aliases: []
+    type: COMMAND
+    command: "gamemode creative {player}"
+
+  # Comando de GM0
+  gm0:
+    enabled: true
+    permission: "admin"
+    aliases: []
+    type: COMMAND
+    command: "gamemode survival {player}"
+
+  # Comando de heal + feed combinado
+  healfeed:
+    enabled: true
+    permission: "vip"
+    aliases:
+      - hf
+    type: COMMANDS
+    commands:
+      - "heal {player}"
+      - "feed {player}"
+      - "tell {player} &aVocê foi curado e alimentado!"
+
+  # Comando de ajuda personalizado
+  ajuda:
+    enabled: true
+    permission: ""
+    aliases:
+      - help
+      - comandos
+    type: MESSAGE
+    messages:
+      - ""
+      - "&e&l━━━━━━━ &6&lAjuda &e&l━━━━━━━"
+      - ""
+      - "&6Comandos Gerais:"
+      - "&f/regras &7- Ver regras do servidor"
+      - "&f/discord &7- Link do Discord"
+      - "&f/loja &7- Loja VIP"
+      - "&f/info &7- Suas informações"
+      - ""
+      - "&6Comandos VIP:"
+      - "&f/kit &7- Pegar kits"
+      - "&f/vip &7- Benefícios VIP"
+      - ""
+      - "&e&l━━━━━━━━━━━━━━━━━━━━━"
+      - ""

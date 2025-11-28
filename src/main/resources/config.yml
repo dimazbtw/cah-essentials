@@ -1,0 +1,78 @@
+# Limite de homes. permissão = "homes.nome"
+homes:
+  default: 3
+  vip: 5
+  mvp: 10
+
+protecao:
+  bloquear-abrir-containers: true
+  bloquear-shift-containers: true
+  # Camas
+  bloquear-deitar-camas: true
+  # Itens
+  bloquear-explodir-itens: true
+  # Plantações
+  bloquear-quebrar-plantacoes-pulando: true
+  # Portais
+  bloquear-criar-portal: true
+  bloquear-teleport-nether: true
+  bloquear-teleport-end: true
+  # Mobs
+  bloquear-mobs-pegarem-fogo: true
+  # Void
+  bloquear-cair-void: true
+  # Crafts
+  bloquear-crafts: true
+  # Placas - Palavras bloqueadas
+  bloquear-palavras-placas: true
+  palavras-proibidas:
+    - "palavrão1"
+    - "palavrão2"
+    - "spam"
+  # Nicks
+  bloquear-nicks-improprios: true
+  nicks-proibidos:
+    - "admin"
+    - "moderador"
+    - "dono"
+  # Comandos
+  bloquear-comandos: true
+  comandos-bloqueados:
+    - "/op"
+    - "/deop"
+    - "/stop"
+    - "/reload"
+  # Plugins
+  bloquear-desabilitar-plugins: true
+  plugins-protegidos:
+    - "PluginEssencial"
+    - "PluginImportante"
+
+# Configurações de Mundo
+mundo:
+  # Desativar ciclo do dia
+  desativar-ciclo-dia: true
+  # Mobs
+  desativar-mobs-naturais: true
+  # Física de Blocos
+  desativar-queda-areia: true
+  desativar-queda-bigorna: true
+  desativar-queda-folhas: true
+  # Clima
+  desativar-chuva: true
+  # Fluidos
+  desativar-agua-escorrer: true
+  desativar-lava-escorrer: true
+  # Fogo
+  desativar-fogo-espalhar: true
+  # Fome
+  desativar-fome: true
+  mundos-sem-fome:
+    - "world"
+    - "spawn"
+
+# Mensagens
+mensagens:
+  desativar-mensagem-entrada: true
+  desativar-mensagem-morte: true
+  desativar-mensagem-saida: true

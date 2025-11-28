@@ -1,0 +1,64 @@
+# Configuração de Anúncios Automáticos
+# Delay em segundos entre cada anúncio
+Delay: 60
+
+# Ativar/Desativar sistema de anúncios
+Ativar: true
+
+# Se true, escolhe mensagens aleatoriamente
+# Se false, segue ordem de prioridade
+Aleatorio: true
+
+# Mensagens de anúncio
+# Prioridade: 1 = maior prioridade, 10 = menor prioridade
+# %online% = jogadores online
+# %max% = máximo de jogadores
+# Suporta PlaceholderAPI
+Mensagens:
+  msg1:
+    Prioridade: 1
+    Chat:
+      - ''
+      - '&e&lDICA'
+      - '&8▪ &fUm bom começo será pela mineração &7(/mina).'
+      - ''
+
+  msg2:
+    Prioridade: 2
+    Chat:
+      - ''
+      - '&a&lSERVIDOR'
+      - '&8▪ &fAtualmente temos &a%online%&f/&a%max% &fjogadores online!'
+      - ''
+
+  msg3:
+    Prioridade: 3
+    Chat:
+      - ''
+      - '&b&lDISCORD'
+      - '&8▪ &fEntre no nosso Discord: &bdiscord.gg/exemplo'
+      - ''
+
+  msg4:
+    Prioridade: 4
+    Chat:
+      - ''
+      - '&6&lKITS'
+      - '&8▪ &fUse &6/kit &fpara ver os kits disponíveis!'
+      - ''
+
+  msg5:
+    Prioridade: 5
+    Chat:
+      - ''
+      - '&d&lLOJA'
+      - '&8▪ &fAdquira VIP em &dcraftandhelps.com'
+      - ''
+
+  msg6:
+    Prioridade: 6
+    Chat:
+      - ''
+      - '&c&lREGRAS'
+      - '&8▪ &fLeia as regras do servidor: &c/regras'
+      - ''

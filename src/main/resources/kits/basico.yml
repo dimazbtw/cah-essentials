@@ -1,0 +1,8 @@
+basico: #nome do arquivo
+  Nome: 'Basico'
+  Display: '&7Básico'
+  Permissao: 'kit.basico'
+  Delay: 604800 #em segundos
+  Items: #Lista de items serializados
+#-
+#-

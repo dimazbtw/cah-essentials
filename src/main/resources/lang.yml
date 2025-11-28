@@ -1,0 +1,140 @@
+# Configuração de mensagens do plugin
+
+prefixes:
+  main: "&f➤ "
+  broadcast: "&8[&c&lALERTA&8] "
+  error: "&8[&c&lERRO&8] "
+  join: "&8[&a&l+&8] "
+  quit: "&8[&c&l-&8] "
+
+no-permission: "{prefix_error}&cVocê não tem permissão para executar este comando!"
+player-only: "{prefix_error}&cEste comando só pode ser executado por jogadores!"
+player-not-found: "{prefix_error}&cJogador não encontrado!"
+invalid-syntax: "{prefix_error}&cUso correto: {usage}"
+
+# Mensagens de entrada e saída
+join-quit:
+  join: "{prefix_join}&f{player} entrou no servidor"
+  quit: "{prefix_quit}&f{player} saiu do servidor"
+  first-join: "\n{prefix_broadcast}&6Bem-vindo(a) &f{player} &6ao servidor!\n"
+
+  # Comandos específicos
+gamemode:
+  changed-self: "{prefix_main}&aSeu modo de jogo foi alterado para &f{gamemode}"
+  changed-other: "{prefix_main}&aVocê alterou o modo de jogo de &f{target} &apara &f{gamemode}"
+  target-changed: "{prefix_main}&aSeu modo de jogo foi alterado para &f{gamemode} &apor &f{sender}"
+  invalid-mode: "{prefix_error}&cModo de jogo inválido! Use: survival, creative, adventure ou spectator"
+
+# Mensagens de Menus
+menus:
+  reloaded: "&aMenus recarregados com sucesso! &7(&f{amount} menus em {time}ms&7)"
+  usage: "&cUso correto: &f/menus abrir <menu>"
+  not-found: "&cMenu '{menu}' não encontrado!"
+  opened: "&aAbrindo menu '{menu}'..."
+
+tp:
+  teleported-to-player: "§aTeleportado para §e{target}§a."
+  teleported-player-to-you: "§aJogador §e{target}§a teleportado para você."
+  teleported-to-coords: "§aTeleportado para §e{x}§a, §e{y}§a, §e{z}§a no mundo §e{world}§a."
+  self-teleport: "§cVocê não pode se teleportar para si mesmo."
+  invalid-coordinates: "§cCoordenadas inválidas. Use números."
+  usage: "§cUso: /tp <jogador> | /tp <x> <y> <z> | /tp <x> <y> <z> <mundo>"
+
+tphere:
+  usage: "§cUso: /tphere <jogador>"
+
+tpall:
+  teleported: "§aVocê foi teleportado para §e{player}§a."
+  teleported-all: "§aTeleportados §e{count}§a jogadores para sua localização."
+
+# TPA Messages
+tpa:
+  error:
+    self: "&cVocê não pode enviar um pedido de teleporte para si mesmo!"
+    disabled: "&cEste jogador desativou o recebimento de pedidos de teleporte!"
+    pending: "&cEste jogador já possui um pedido de teleporte pendente!"
+    no-request: "&cVocê não possui pedidos de teleporte pendentes!"
+    offline: "&cO jogador não está mais online!"
+  sent: "&aPedido de teleporte enviado para {player}"
+  request:
+    title: "&ePedido de teleporte de {player}"
+    accept:
+      text: "&a[ACEITAR]"
+      hover: "&aClique para aceitar"
+    deny:
+      text: "&c[RECUSAR]"
+      hover: "&cClique para recusar"
+  accepted:
+    sender: "&aTeleporte aceito por {player}"
+    target: "&aVocê aceitou o teleporte de {player}"
+  denied:
+    sender: "&c{player} recusou seu pedido de teleporte!"
+    target: "&cVocê recusou o pedido de teleporte!"
+  toggle:
+    enabled: "&aVocê ativou o recebimento de pedidos de teleporte!"
+    disabled: "&cVocê desativou o recebimento de pedidos de teleporte!"
+  expired:
+    sender: "&cSeu pedido de teleporte para {player} expirou!"
+    target: "&cO pedido de teleporte de {player} expirou!"
+
+heal:
+  healed-self: "{prefix_main}&aVocê foi curado!"
+  healed-other: "{prefix_main}&aVocê curou o jogador &f{target}"
+  target-healed: "{prefix_main}&aVocê foi curado por &f{sender}"
+
+feed:
+  fed-self: "{prefix_main}&aVocê foi alimentado!"
+  fed-other: "{prefix_main}&aVocê alimentou o jogador &f{target}"
+  target-fed: "{prefix_main}&aVocê foi alimentado por &f{sender}"
+
+broadcast:
+  format: "\n{prefix_broadcast}&f{message}\n"
+  no-message: "{prefix_error}&cVocê precisa digitar uma mensagem!"
+
+night-vision:
+  enabled: "{prefix_main}&aVisão noturna ativada!"
+  disabled: "{prefix_main}&cVisão noturna desativada!"
+
+speed:
+  changed: "{prefix_main}&aVelocidade alterada para &f{speed}"
+  reset: "{prefix_main}&aVelocidade restaurada para o valor padrão!"
+  invalid-speed: "{prefix_error}&cA velocidade deve estar entre 1 e 10!"
+  invalid-input: "{prefix_error}&cPor favor, insira um número entre 1 e 10 ou 'clear'!"
+
+playerinfo:
+  format:
+    - "\n&8=-=-=-=-= &e&lINFORMAÇÕES DO JOGADOR &8=-=-=-=-=\n"
+    - "&fNick: &e{nick}"
+    - "&fUUID: &7{uuid}"
+    - "&fIP: &7{ip}"
+    - "&fPrimeira Entrada: &7{date}"
+    - "&fÚltima Saída: &7{date}"
+    - "&fMundo Atual: &7{world}"
+    - "&fVida: &7{health}/{max_health}"
+    - "&fFome: &7{food}/20"
+    - "&fModo de Jogo: &7{gamemode}"
+    - "&fStatus: {status}"
+    - "\n&8=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+
+spawn:
+  not-set: "{prefix_error}&cO spawn ainda não foi definido!"
+  set: "{prefix_main}&aO ponto de spawn foi definido com sucesso em &f{world} &7({x}, {y}, {z})"
+  teleported: "{prefix_main}&aVocê foi teleportado para o spawn!"
+  teleported-by: "{prefix_main}&aVocê foi teleportado para o spawn por &f{sender}"
+
+world-protection:
+  world-not-found: "{prefix_error}Mundo não encontrado!"
+  toggle: "{prefix_main}Proteção {protection} {state} para o mundo {world}"
+
+player-protection:
+  flight-disabled: "{prefix_error}O modo de voo está desativado no mundo {world}!"
+  creative-disabled: "{prefix_error}O modo criativo está desativado neste mundo!"
+  void-teleport: "{prefix_main}Você foi teleportado para o spawn para evitar morte no void!"
+
+container-access-denied: "{prefix_error}Você não pode abrir este container aqui!"
+
+fly:
+  toggled-self: "{prefix_main}&aModo de voo {state}!"
+  toggled-other: "{prefix_main}&aVocê {state} o modo de voo de &f{target}"
+  target-toggled: "{prefix_main}&aSeu modo de voo foi {state} por &f{sender}"
+  world-disabled: "{prefix_error}&cO modo de voo está desativado neste mundo!"
