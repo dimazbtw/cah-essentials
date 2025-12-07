@@ -1,5 +1,6 @@
 package github.dimazbtw.essentials.commands;
 
+import github.dimazbtw.essentials.managers.LangManager;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -289,10 +290,50 @@ public class UtilityCommands {
     @Command(
             name = "lang",
             aliases = "idioma",
-            description = "Renomeia o item na mão",
+            description = "Altera o idioma do jogador",
             target = CommandTarget.PLAYER
     )
-    public void handleLang(Context<Player> context){
+    public void handleLang(Context<Player> context, @Optional String langCode) {
+        Player player = context.getSender();
+        LangManager langManager = plugin.getLangManager();
 
+        if (langCode == null) {
+            // Mostrar lista de idiomas
+            player.sendMessage(langManager.getMessage(player, "language.list-header"));
+
+            String currentLang = langManager.getPlayerLanguage(player);
+
+            for (String code : langManager.getAvailableLanguages()) {
+                String name = langManager.getLanguageName(code);
+                String flag = langManager.getLanguageFlag(code);
+
+                Map<String, String> placeholders = new HashMap<>();
+                placeholders.put("code", code);
+                placeholders.put("name", name);
+                placeholders.put("flag", flag);
+
+                String line = langManager.getMessage(player, "language.list-item", placeholders);
+
+                if (code.equals(currentLang)) {
+                    line += " " + langManager.getMessage(player, "language.list-current");
+                }
+
+                player.sendMessage(line);
+            }
+            return;
+        }
+
+        // Alterar idioma
+        if (!langManager.languageExists(langCode)) {
+            player.sendMessage(langManager.getMessage(player, "language.not-found"));
+            return;
+        }
+
+        langManager.setPlayerLanguage(player, langCode);
+
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("language", langManager.getLanguageName(langCode) + " " + langManager.getLanguageFlag(langCode));
+
+        player.sendMessage(langManager.getMessage(player, "language.changed", placeholders));
     }
 }

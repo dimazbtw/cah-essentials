@@ -1,64 +1,146 @@
 # Configuração de Anúncios Automáticos
 # Delay em segundos entre cada anúncio
+#
+# Ativar: Ativar/Desativar sistema de anúncios
+# Aleatorio: Se true, escolhe aleatoriamente. Se false, segue ordem de prioridade
+#
+# Placeholders disponíveis:
+#   %online% = jogadores online
+#   %max% = máximo de jogadores
+#   %player% = nome do jogador
+#   Suporta PlaceholderAPI
+
 Delay: 60
-
-# Ativar/Desativar sistema de anúncios
 Ativar: true
-
-# Se true, escolhe mensagens aleatoriamente
-# Se false, segue ordem de prioridade
 Aleatorio: true
 
-# Mensagens de anúncio
-# Prioridade: 1 = maior prioridade, 10 = menor prioridade
-# %online% = jogadores online
-# %max% = máximo de jogadores
-# Suporta PlaceholderAPI
 Mensagens:
-  msg1:
+  dica:
     Prioridade: 1
     Chat:
-      - ''
-      - '&e&lDICA'
-      - '&8▪ &fUm bom começo será pela mineração &7(/mina).'
-      - ''
+      pt_PT:
+        - ''
+        - '&e&lDICA'
+        - '&8▪ &fUm bom começo será pela mineração &7(/mina).'
+        - ''
+      en_US:
+        - ''
+        - '&e&lTIP'
+        - '&8▪ &fA good start is mining &7(/mine).'
+        - ''
 
-  msg2:
+  servidor:
     Prioridade: 2
     Chat:
-      - ''
-      - '&a&lSERVIDOR'
-      - '&8▪ &fAtualmente temos &a%online%&f/&a%max% &fjogadores online!'
-      - ''
+      pt_PT:
+        - ''
+        - '&a&lSERVIDOR'
+        - '&8▪ &fAtualmente temos &a%online%&f/&a%max% &fjogadores online!'
+        - ''
+      en_US:
+        - ''
+        - '&a&lSERVER'
+        - '&8▪ &fCurrently we have &a%online%&f/&a%max% &fplayers online!'
+        - ''
 
-  msg3:
+  discord:
     Prioridade: 3
     Chat:
-      - ''
-      - '&b&lDISCORD'
-      - '&8▪ &fEntre no nosso Discord: &bdiscord.gg/exemplo'
-      - ''
+      pt_PT:
+        - ''
+        - '&b&lDISCORD'
+        - '&8▪ &fEntre no nosso Discord: &bdiscord.gg/exemplo'
+        - ''
+      en_US:
+        - ''
+        - '&b&lDISCORD'
+        - '&8▪ &fJoin our Discord: &bdiscord.gg/example'
+        - ''
 
-  msg4:
+  kits:
     Prioridade: 4
     Chat:
-      - ''
-      - '&6&lKITS'
-      - '&8▪ &fUse &6/kit &fpara ver os kits disponíveis!'
-      - ''
+      pt_PT:
+        - ''
+        - '&6&lKITS'
+        - '&8▪ &fUse &6/kit &fpara ver os kits disponíveis!'
+        - ''
+      en_US:
+        - ''
+        - '&6&lKITS'
+        - '&8▪ &fUse &6/kit &fto see available kits!'
+        - ''
 
-  msg5:
+  loja:
     Prioridade: 5
     Chat:
-      - ''
-      - '&d&lLOJA'
-      - '&8▪ &fAdquira VIP em &dcraftandhelps.com'
-      - ''
+      pt_PT:
+        - ''
+        - '&d&lLOJA'
+        - '&8▪ &fAdquira VIP em &dloja.seuservidor.com'
+        - ''
+      en_US:
+        - ''
+        - '&d&lSTORE'
+        - '&8▪ &fGet VIP at &dstore.yourserver.com'
+        - ''
 
-  msg6:
+  regras:
     Prioridade: 6
     Chat:
-      - ''
-      - '&c&lREGRAS'
-      - '&8▪ &fLeia as regras do servidor: &c/regras'
-      - ''
+      pt_PT:
+        - ''
+        - '&c&lREGRAS'
+        - '&8▪ &fLeia as regras do servidor: &c/regras'
+        - ''
+      en_US:
+        - ''
+        - '&c&lRULES'
+        - '&8▪ &fRead the server rules: &c/rules'
+        - ''
+
+  votar:
+    Prioridade: 7
+    Chat:
+      pt_PT:
+        - ''
+        - '&5&lVOTE'
+        - '&8▪ &fVote no servidor e ganhe recompensas!'
+        - '&8▪ &fUse &5/votar &fpara votar.'
+        - ''
+      en_US:
+        - ''
+        - '&5&lVOTE'
+        - '&8▪ &fVote for the server and get rewards!'
+        - '&8▪ &fUse &5/vote &fto vote.'
+        - ''
+
+  ajuda:
+    Prioridade: 8
+    Chat:
+      pt_PT:
+        - ''
+        - '&f&lAJUDA'
+        - '&8▪ &fPrecisa de ajuda? Use &7/ajuda &fou pergunte no chat!'
+        - ''
+      en_US:
+        - ''
+        - '&f&lHELP'
+        - '&8▪ &fNeed help? Use &7/help &for ask in chat!'
+        - ''
+
+  # Exemplo com permissão (apenas VIPs veem)
+  vip:
+    Prioridade: 9
+    Permissao: 'grupo.vip'
+    Chat:
+      pt_PT:
+        - ''
+        - '&6&lVIP'
+        - '&8▪ &fObrigado por ser VIP! Aproveite os benefícios!'
+        - ''
+      en_US:
+        - ''
+        - '&6&lVIP'
+        - '&8▪ &fThank you for being VIP! Enjoy the benefits!'
+        - ''

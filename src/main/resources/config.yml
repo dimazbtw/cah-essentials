@@ -1,3 +1,19 @@
+language:
+  default: "pt_PT"
+
+# ==================== CONFIGURAÇÕES VISUAIS ====================
+visuals:
+  # Scoreboard (lateral)
+  scoreboard:
+    enabled: true
+    update-interval: 20  # Em ticks (20 = 1 segundo)
+
+  # Tab (lista de jogadores)
+  tab:
+    enabled: true
+    update-interval: 40  # Em ticks
+    sort-by-group: true  # Ordenar por grupo do LuckPerms
+
 # Limite de homes. permissão = "homes.nome"
 homes:
   default: 3

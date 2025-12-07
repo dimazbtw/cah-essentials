@@ -8,7 +8,6 @@ import github.dimazbtw.lib.inventories.InventorySize;
 import github.dimazbtw.lib.inventories.ItemButton;
 import github.dimazbtw.lib.utils.basics.ColorUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,172 +20,184 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class KitsView {
     private final Main plugin;
-    private File configFile;
-    private YamlConfiguration config;
-    private final Map<String, MenuConfig> menus = new HashMap<>();
+    private final File menusFolder;
+    private final Map<String, Map<String, MenuConfig>> languageMenus = new HashMap<>();
     private final Map<UUID, BukkitTask> updateTasks = new HashMap<>();
 
     public KitsView(Main plugin) {
         this.plugin = plugin;
-        setupConfig();
-        loadMenus();
+        this.menusFolder = new File(plugin.getDataFolder(), "menus");
+        setupMenus();
+        loadAllMenus();
     }
 
-    private void setupConfig() {
-        File menusFolder = new File(plugin.getDataFolder(), "menus");
+    private void setupMenus() {
         if (!menusFolder.exists()) {
             menusFolder.mkdirs();
         }
 
-        configFile = new File(menusFolder, "kits.yml");
-
-        if (!configFile.exists()) {
-            try {
-                configFile.createNewFile();
-            } catch (IOException e) {
-                plugin.getLogger().severe("Erro ao criar menus/kits.yml!");
-                e.printStackTrace();
+        for (String lang : plugin.getLangManager().getAvailableLanguages()) {
+            File langFolder = new File(menusFolder, lang);
+            if (!langFolder.exists()) {
+                langFolder.mkdirs();
             }
+            saveResourceMenu("menus/" + lang + "/kits.yml", langFolder);
         }
 
-        config = YamlConfiguration.loadConfiguration(configFile);
-
-        // Criar configuração padrão se o arquivo estiver vazio
-        if (config.getKeys(false).isEmpty()) {
-            createDefaultConfig();
+        File defaultMenu = new File(menusFolder, "kits.yml");
+        if (!defaultMenu.exists()) {
+            saveResourceMenu("menus/kits.yml", menusFolder);
+            if (!defaultMenu.exists()) {
+                createDefaultKitsMenuFile(defaultMenu, plugin.getLangManager().getDefaultLanguage());
+            }
         }
     }
 
-    private void createDefaultConfig() {
-        config.set("menus.principal.title", "Kits");
+    private void saveResourceMenu(String resourcePath, File targetFolder) {
+        try (InputStream in = plugin.getResource(resourcePath)) {
+            if (in != null) {
+                String fileName = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
+                File targetFile = new File(targetFolder, fileName);
+
+                if (!targetFile.exists()) {
+                    YamlConfiguration config = YamlConfiguration.loadConfiguration(
+                            new InputStreamReader(in, StandardCharsets.UTF_8));
+                    config.save(targetFile);
+                    plugin.getLogger().info("Menu criado: " + targetFile.getPath());
+                }
+            }
+        } catch (IOException e) {
+            plugin.getLogger().warning("Erro ao salvar menu: " + resourcePath);
+        }
+    }
+
+    private void createDefaultKitsMenuFile(File file, String lang) {
+        YamlConfiguration config = new YamlConfiguration();
+        boolean isEnglish = lang.startsWith("en");
+
+        config.set("menus.principal.title", "&8Kits");
         config.set("menus.principal.size", 27);
 
-        // Item 1 - Ranks
-        config.set("menus.principal.items.item1.slot", 11);
-        config.set("menus.principal.items.item1.material", "DIAMOND");
-        config.set("menus.principal.items.item1.name", "&aKits - Ranks");
-        config.set("menus.principal.items.item1.lore", Arrays.asList(
-                "&7Acessa o menu de kits",
-                "&7de ranks.",
-                "",
-                "&aClica para acessar"
-        ));
-        config.set("menus.principal.items.item1.action", Arrays.asList(
-                "[menu] kits-ranks",
-                "[sound] NOTE_PLING"
-        ));
+        config.set("menus.principal.items.ranks.slot", 11);
+        config.set("menus.principal.items.ranks.material", "DIAMOND");
+        config.set("menus.principal.items.ranks.name", "&b&lKits - Ranks");
+        config.set("menus.principal.items.ranks.lore", isEnglish ?
+                Arrays.asList("&7Access the rank kits", "&7menu.", "", "&aClick to access") :
+                Arrays.asList("&7Acessa o menu de kits", "&7de ranks.", "", "&aClica para acessar"));
+        config.set("menus.principal.items.ranks.action", Arrays.asList("[menu] kits-ranks", "[sound] NOTE_PLING"));
 
-        // Item 2 - VIPs
-        config.set("menus.principal.items.item2.slot", 13);
-        config.set("menus.principal.items.item2.material", "EMERALD");
-        config.set("menus.principal.items.item2.name", "&aKits - VIPs");
-        config.set("menus.principal.items.item2.lore", Arrays.asList(
-                "&7Acessa o menu de kits",
-                "&7VIPs.",
-                "",
-                "&aClica para acessar"
-        ));
-        config.set("menus.principal.items.item2.action", Arrays.asList(
-                "[menu] kits-vips",
-                "[sound] NOTE_PLING"
-        ));
+        config.set("menus.principal.items.vips.slot", 13);
+        config.set("menus.principal.items.vips.material", "EMERALD");
+        config.set("menus.principal.items.vips.name", "&6&lKits - VIPs");
+        config.set("menus.principal.items.vips.lore", isEnglish ?
+                Arrays.asList("&7Access the VIP kits", "&7menu.", "", "&aClick to access") :
+                Arrays.asList("&7Acessa o menu de kits", "&7VIP.", "", "&aClica para acessar"));
+        config.set("menus.principal.items.vips.action", Arrays.asList("[menu] kits-vips", "[sound] NOTE_PLING"));
 
-        // Item 3 - Outros
-        config.set("menus.principal.items.item3.slot", 15);
-        config.set("menus.principal.items.item3.material", "IRON_INGOT");
-        config.set("menus.principal.items.item3.name", "&aKits - Outros");
-        config.set("menus.principal.items.item3.lore", Arrays.asList(
-                "&7Acessa o menu de outros",
-                "&7kits.",
-                "",
-                "&aClica para acessar"
-        ));
-        config.set("menus.principal.items.item3.action", Arrays.asList(
-                "[menu] kits-outros",
-                "[sound] NOTE_PLING"
-        ));
+        config.set("menus.principal.items.outros.slot", 15);
+        config.set("menus.principal.items.outros.material", "IRON_INGOT");
+        config.set("menus.principal.items.outros.name", isEnglish ? "&e&lKits - Others" : "&e&lKits - Outros");
+        config.set("menus.principal.items.outros.lore", isEnglish ?
+                Arrays.asList("&7Access other kits", "&7menu.", "", "&aClick to access") :
+                Arrays.asList("&7Acessa o menu de", "&7outros kits.", "", "&aClica para acessar"));
+        config.set("menus.principal.items.outros.action", Arrays.asList("[menu] kits-outros", "[sound] NOTE_PLING"));
 
-        // Menu Kits Outros
-        config.set("menus.kits-outros.title", "Kits - Outros");
+        config.set("menus.kits-outros.title", isEnglish ? "&8Kits - Others" : "&8Kits - Outros");
         config.set("menus.kits-outros.size", 27);
 
         config.set("menus.kits-outros.items.basico.slot", 11);
         config.set("menus.kits-outros.items.basico.kit", "basico");
         config.set("menus.kits-outros.items.basico.material", "STONE_SWORD");
-        config.set("menus.kits-outros.items.basico.name", "&aKit Básico");
-        config.set("menus.kits-outros.items.basico.lore", Arrays.asList(
-                "",
-                "{kit_status}",
-                "",
-                "&eBotão-Direito para ver"
-        ));
-        config.set("menus.kits-outros.items.basico.action", Arrays.asList(
-                "[sound] NOTE_PLING",
-                "[kit] basico"
-        ));
+        config.set("menus.kits-outros.items.basico.name", isEnglish ? "&7Basic Kit" : "&7Kit Básico");
+        config.set("menus.kits-outros.items.basico.lore", Arrays.asList("", "{kit_status}", "",
+                isEnglish ? "&eRight-Click to preview" : "&eBotão-Direito para ver"));
+        config.set("menus.kits-outros.items.basico.action", Arrays.asList("[sound] NOTE_PLING", "[kit] basico"));
 
-        // Menu Kits VIPs
-        config.set("menus.kits-vips.title", "Kits - VIPs");
+        config.set("menus.kits-outros.items.voltar.slot", 22);
+        config.set("menus.kits-outros.items.voltar.material", "ARROW");
+        config.set("menus.kits-outros.items.voltar.name", isEnglish ? "&cBack" : "&cVoltar");
+        config.set("menus.kits-outros.items.voltar.lore", Arrays.asList(isEnglish ? "&7Click to go back" : "&7Clique para voltar"));
+        config.set("menus.kits-outros.items.voltar.action", Arrays.asList("[menu] principal", "[sound] CLICK"));
+
+        config.set("menus.kits-vips.title", "&8Kits - VIPs");
         config.set("menus.kits-vips.size", 27);
 
         config.set("menus.kits-vips.items.vip.slot", 13);
         config.set("menus.kits-vips.items.vip.kit", "vip");
         config.set("menus.kits-vips.items.vip.material", "GOLD_INGOT");
         config.set("menus.kits-vips.items.vip.name", "&6Kit VIP");
-        config.set("menus.kits-vips.items.vip.lore", Arrays.asList(
-                "",
-                "{kit_status}",
-                "",
-                "&eBotão-Direito para ver"
-        ));
-        config.set("menus.kits-vips.items.vip.action", Arrays.asList(
-                "[sound] NOTE_PLING",
-                "[kit] vip"
-        ));
+        config.set("menus.kits-vips.items.vip.lore", Arrays.asList("", "{kit_status}", "",
+                isEnglish ? "&eRight-Click to preview" : "&eBotão-Direito para ver"));
+        config.set("menus.kits-vips.items.vip.action", Arrays.asList("[sound] NOTE_PLING", "[kit] vip"));
 
-        // Menu Kits Ranks
-        config.set("menus.kits-ranks.title", "Kits - Ranks");
+        config.set("menus.kits-vips.items.voltar.slot", 22);
+        config.set("menus.kits-vips.items.voltar.material", "ARROW");
+        config.set("menus.kits-vips.items.voltar.name", isEnglish ? "&cBack" : "&cVoltar");
+        config.set("menus.kits-vips.items.voltar.lore", Arrays.asList(isEnglish ? "&7Click to go back" : "&7Clique para voltar"));
+        config.set("menus.kits-vips.items.voltar.action", Arrays.asList("[menu] principal", "[sound] CLICK"));
+
+        config.set("menus.kits-ranks.title", "&8Kits - Ranks");
         config.set("menus.kits-ranks.size", 27);
 
-        // Botão de voltar em todos os submenus
-        for (String menuName : Arrays.asList("kits-outros", "kits-vips", "kits-ranks")) {
-            config.set("menus." + menuName + ".items.voltar.slot", 22);
-            config.set("menus." + menuName + ".items.voltar.material", "ARROW");
-            config.set("menus." + menuName + ".items.voltar.name", "&cVoltar");
-            config.set("menus." + menuName + ".items.voltar.lore", Arrays.asList("&7Clique para voltar"));
-            config.set("menus." + menuName + ".items.voltar.action", Arrays.asList(
-                    "[menu] principal",
-                    "[sound] CLICK"
-            ));
-        }
+        config.set("menus.kits-ranks.items.voltar.slot", 22);
+        config.set("menus.kits-ranks.items.voltar.material", "ARROW");
+        config.set("menus.kits-ranks.items.voltar.name", isEnglish ? "&cBack" : "&cVoltar");
+        config.set("menus.kits-ranks.items.voltar.lore", Arrays.asList(isEnglish ? "&7Click to go back" : "&7Clique para voltar"));
+        config.set("menus.kits-ranks.items.voltar.action", Arrays.asList("[menu] principal", "[sound] CLICK"));
 
-        saveConfig();
-    }
-
-    private void saveConfig() {
         try {
-            config.save(configFile);
+            config.save(file);
+            plugin.getLogger().info("Menu de kits criado: " + file.getPath());
         } catch (IOException e) {
-            plugin.getLogger().severe("Erro ao salvar menus/kits.yml!");
+            plugin.getLogger().severe("Erro ao criar menu de kits!");
             e.printStackTrace();
         }
     }
 
-    private void loadMenus() {
-        menus.clear();
+    private void loadAllMenus() {
+        languageMenus.clear();
 
-        if (!config.contains("menus")) {
-            plugin.getLogger().warning("Nenhum menu encontrado em menus/kits.yml!");
-            return;
+        for (String lang : plugin.getLangManager().getAvailableLanguages()) {
+            File langFolder = new File(menusFolder, lang);
+            if (langFolder.exists() && langFolder.isDirectory()) {
+                loadMenusFromFolder(langFolder, lang);
+            }
         }
+
+        File defaultKits = new File(menusFolder, "kits.yml");
+        if (defaultKits.exists()) {
+            loadMenuFile(defaultKits, "default");
+        }
+
+        plugin.getLogger().info("Menus carregados para " + languageMenus.size() + " idiomas!");
+    }
+
+    private void loadMenusFromFolder(File folder, String lang) {
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".yml"));
+        if (files == null) return;
+
+        for (File file : files) {
+            loadMenuFile(file, lang);
+        }
+    }
+
+    private void loadMenuFile(File file, String lang) {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        if (!config.contains("menus")) return;
 
         ConfigurationSection menusSection = config.getConfigurationSection("menus");
         if (menusSection == null) return;
+
+        Map<String, MenuConfig> menus = languageMenus.computeIfAbsent(lang, k -> new HashMap<>());
 
         for (String menuName : menusSection.getKeys(false)) {
             String path = "menus." + menuName;
@@ -201,7 +212,6 @@ public class KitsView {
                 for (String itemKey : itemsSection.getKeys(false)) {
                     String itemPath = path + ".items." + itemKey;
 
-                    // Suporte para slot único ou múltiplos slots
                     List<Integer> slots = new ArrayList<>();
                     if (config.isList(itemPath + ".slot")) {
                         slots = config.getIntegerList(itemPath + ".slot");
@@ -215,7 +225,6 @@ public class KitsView {
                     List<String> actions = config.getStringList(itemPath + ".action");
                     String kitId = config.getString(itemPath + ".kit", "");
 
-                    // Criar um MenuItem para cada slot
                     for (int slot : slots) {
                         MenuItem menuItem = new MenuItem(slot, material, name, lore, actions, kitId);
                         menuConfig.addItem(menuItem);
@@ -225,18 +234,39 @@ public class KitsView {
 
             menus.put(menuName, menuConfig);
         }
+    }
 
-        plugin.getLogger().info("Carregados " + menus.size() + " menus de kits!");
+    private MenuConfig getMenuForPlayer(Player player, String menuName) {
+        String playerLang = plugin.getLangManager().getPlayerLanguage(player);
+
+        Map<String, MenuConfig> langMenus = languageMenus.get(playerLang);
+        if (langMenus != null && langMenus.containsKey(menuName)) {
+            return langMenus.get(menuName);
+        }
+
+        String defaultLang = plugin.getLangManager().getDefaultLanguage();
+        langMenus = languageMenus.get(defaultLang);
+        if (langMenus != null && langMenus.containsKey(menuName)) {
+            return langMenus.get(menuName);
+        }
+
+        langMenus = languageMenus.get("default");
+        if (langMenus != null && langMenus.containsKey(menuName)) {
+            return langMenus.get(menuName);
+        }
+
+        return null;
     }
 
     public void openMenu(Player player, String menuName) {
-        MenuConfig menuConfig = menus.get(menuName);
+        MenuConfig menuConfig = getMenuForPlayer(player, menuName);
         if (menuConfig == null) {
-            player.sendMessage("§cMenu não encontrado!");
+            Map<String, String> placeholders = new HashMap<>();
+            placeholders.put("menu", menuName);
+            player.sendMessage(plugin.getLangManager().getMessage(player, "menus.not-found", placeholders));
             return;
         }
 
-        // Cancelar task anterior se existir
         cancelUpdateTask(player);
 
         InventorySize invSize = getInventorySize(menuConfig.size);
@@ -246,7 +276,6 @@ public class KitsView {
         );
         inv.setDefaultAllCancell(true);
 
-        // Variável final para usar no lambda
         final String currentMenu = menuName;
 
         for (MenuItem item : menuConfig.items) {
@@ -258,7 +287,6 @@ public class KitsView {
 
                 @Override
                 public void run(InventoryClickEvent e) {
-                    // Prevenir cliques duplicados (anti-spam de 500ms)
                     long now = System.currentTimeMillis();
                     if (now - lastClick < 500) {
                         return;
@@ -267,13 +295,11 @@ public class KitsView {
 
                     Player clicker = (Player) e.getWhoClicked();
 
-                    // Verificar se é botão direito e tem kit associado
                     if (e.isRightClick() && !item.kitId.isEmpty()) {
                         openKitPreview(clicker, item.kitId, currentMenu);
                         return;
                     }
 
-                    // Processar ações
                     for (String action : item.actions) {
                         processAction(clicker, action, item.kitId);
                     }
@@ -285,7 +311,6 @@ public class KitsView {
 
         inv.show(player);
 
-        // Iniciar atualização automática se tiver kits no menu
         boolean hasKits = menuConfig.items.stream().anyMatch(item -> !item.kitId.isEmpty());
         if (hasKits) {
             startAutoUpdate(player, menuName, inv, menuConfig);
@@ -294,20 +319,18 @@ public class KitsView {
 
     private void startAutoUpdate(Player player, String menuName, InventoryGUI inv, MenuConfig menuConfig) {
         BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            // Verificar se o jogador ainda está com o inventário aberto
             if (!player.getOpenInventory().getTitle().equals(ColorUtils.colorize(menuConfig.title))) {
                 cancelUpdateTask(player);
                 return;
             }
 
-            // Atualizar itens com kits
             for (MenuItem item : menuConfig.items) {
                 if (!item.kitId.isEmpty()) {
                     ItemStack updatedItem = createItemStack(player, item);
                     inv.getInventory().setItem(item.slot, updatedItem);
                 }
             }
-        }, 20L, 20L); // Atualiza a cada 1 segundo
+        }, 20L, 20L);
 
         updateTasks.put(player.getUniqueId(), task);
     }
@@ -344,14 +367,11 @@ public class KitsView {
 
             meta.setLore(processedLore);
 
-            // Esconder atributos (funciona em 1.8+)
             try {
                 meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
                 meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
                 meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_UNBREAKABLE);
-            } catch (Exception e) {
-                // Versão antiga do Minecraft que não suporta ItemFlags
-            }
+            } catch (Exception ignored) {}
 
             itemStack.setItemMeta(meta);
         }
@@ -364,25 +384,26 @@ public class KitsView {
 
         Optional<KitModel> optKit = plugin.getKitManager().getKit(kitId);
         if (!optKit.isPresent()) {
-            status.add("§cKit não existe");
+            status.add(plugin.getLangManager().getMessage(player, "kit.menu.not-exists"));
             return status;
         }
 
         KitModel kit = optKit.get();
 
-        // Verificar permissão
         if (!kit.getPermissao().isEmpty() && !player.hasPermission(kit.getPermissao())) {
-            status.add("§cSem permissão para este kit");
+            status.add(plugin.getLangManager().getMessage(player, "kit.menu.no-permission"));
             return status;
         }
 
         long remaining = plugin.getKitManager().getRemainingCooldown(player, kitId);
         if (remaining > 0) {
-            status.add("§cPodes resgatar este kit em:");
-            status.add("§f" + formatTime(remaining));
+            Map<String, String> placeholders = new HashMap<>();
+            placeholders.put("time", formatTime(remaining));
+            status.add(plugin.getLangManager().getMessage(player, "kit.menu.cooldown-title", placeholders));
+            status.add(plugin.getLangManager().getMessage(player, "kit.menu.cooldown-time", placeholders));
         } else {
-            status.add("§a✓ Disponível para resgate");
-            status.add("§eBotão esquerdo para resgatar");
+            status.add(plugin.getLangManager().getMessage(player, "kit.menu.available"));
+            status.add(plugin.getLangManager().getMessage(player, "kit.menu.click-to-claim"));
         }
 
         return status;
@@ -421,49 +442,46 @@ public class KitsView {
     private void giveKit(Player player, String kitId) {
         Optional<KitModel> optKit = plugin.getKitManager().getKit(kitId);
         if (!optKit.isPresent()) {
-            player.sendMessage("§cKit não encontrado!");
+            player.sendMessage(plugin.getLangManager().getMessage(player, "kit.not-found"));
             return;
         }
 
         KitModel kit = optKit.get();
 
-        // Verificar permissão
         if (!kit.getPermissao().isEmpty() && !player.hasPermission(kit.getPermissao())) {
-            player.sendMessage("§cVocê não tem permissão para este kit!");
+            player.sendMessage(plugin.getLangManager().getMessage(player, "kit.no-permission"));
             return;
         }
 
-        // Verificar cooldown
         long remaining = plugin.getKitManager().getRemainingCooldown(player, kitId);
         if (remaining > 0) {
-            player.sendMessage("§cVocê poderá pegar este kit em: §f" + formatTime(remaining));
+            Map<String, String> placeholders = new HashMap<>();
+            placeholders.put("time", formatTime(remaining));
+            player.sendMessage(plugin.getLangManager().getMessage(player, "kit.cooldown", placeholders));
             return;
         }
 
-        // Dar o kit
         if (plugin.getKitManager().giveKit(player, kitId, false)) {
-            player.sendMessage("§aVocê resgatou o kit: " + ColorUtils.colorize(kit.getDisplay()));
+            Map<String, String> placeholders = new HashMap<>();
+            placeholders.put("kit", ColorUtils.colorize(kit.getDisplay()));
+            player.sendMessage(plugin.getLangManager().getMessage(player, "kit.received", placeholders));
             player.closeInventory();
         } else {
-            player.sendMessage("§cErro ao resgatar o kit!");
+            player.sendMessage(plugin.getLangManager().getMessage(player, "kit.error"));
         }
-    }
-
-    private void openKitPreview(Player player, String kitId) {
-        openKitPreview(player, kitId, null);
     }
 
     public void openKitPreview(Player player, String kitId, String returnMenu) {
         Optional<KitModel> optKit = plugin.getKitManager().getKit(kitId);
         if (!optKit.isPresent()) {
-            player.sendMessage("§cKit não encontrado!");
+            player.sendMessage(plugin.getLangManager().getMessage(player, "kit.not-found"));
             return;
         }
 
         KitModel kit = optKit.get();
-        String titulo = ColorUtils.colorize("§8" + kit.getNome() + " - Preview");
+        String previewTitle = plugin.getLangManager().getMessage(player, "kit.preview.title");
+        String titulo = ColorUtils.colorize("§8" + kit.getNome() + " - " + previewTitle);
 
-        // Cancelar task anterior
         cancelUpdateTask(player);
 
         InventoryGUI inv = new InventoryGUI(titulo, InventorySize.SIX_ROWS);
@@ -471,7 +489,6 @@ public class KitsView {
 
         ItemStack[] items = kit.getItems();
 
-        // Adicionar itens do kit
         for (int i = 0; i < items.length && i < 54; i++) {
             if (items[i] != null && items[i].getType() != Material.AIR) {
                 ItemStack displayItem = items[i].clone();
@@ -479,7 +496,7 @@ public class KitsView {
                 if (meta != null) {
                     List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
                     lore.add("");
-                    lore.add("§7Preview do kit");
+                    lore.add(plugin.getLangManager().getMessage(player, "kit.preview.item-lore"));
                     meta.setLore(lore);
                     displayItem.setItemMeta(meta);
                 }
@@ -489,17 +506,14 @@ public class KitsView {
             }
         }
 
-        // Botão de informações (slot 53)
         updateKitInfoButton(inv, player, kit, 53);
 
-        // Botão de voltar/fechar (slot 49)
         ItemStack backItem = new ItemStack(returnMenu != null ? Material.ARROW : Material.BARRIER);
         ItemButton backButton = new ItemButton(backItem);
 
         if (returnMenu != null) {
-            // Botão de voltar ao menu
-            backButton.setName("§cVoltar");
-            backButton.setLore(Arrays.asList("§7Clique para voltar"));
+            backButton.setName(plugin.getLangManager().getMessage(player, "kit.preview.back"));
+            backButton.setLore(Arrays.asList(plugin.getLangManager().getMessage(player, "kit.preview.back-lore")));
             backButton.setDefaultAction(new ClickAction() {
                 @Override
                 public void run(InventoryClickEvent e) {
@@ -508,9 +522,8 @@ public class KitsView {
                 }
             });
         } else {
-            // Botão de fechar
-            backButton.setName("§c§lFechar");
-            backButton.setLore(Arrays.asList("§7Clique para fechar"));
+            backButton.setName(plugin.getLangManager().getMessage(player, "kit.preview.close"));
+            backButton.setLore(Arrays.asList(plugin.getLangManager().getMessage(player, "kit.preview.close-lore")));
             backButton.setDefaultAction(new ClickAction() {
                 @Override
                 public void run(InventoryClickEvent e) {
@@ -524,21 +537,18 @@ public class KitsView {
 
         inv.show(player);
 
-        // Iniciar atualização automática do botão de informações
         startKitPreviewAutoUpdate(player, inv, kit, titulo);
     }
 
     private void startKitPreviewAutoUpdate(Player player, InventoryGUI inv, KitModel kit, String titulo) {
         BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            // Verificar se o jogador ainda está com o inventário aberto
             if (!player.getOpenInventory().getTitle().equals(titulo)) {
                 cancelUpdateTask(player);
                 return;
             }
 
-            // Atualizar apenas o botão de informações (slot 53)
             updateKitInfoButton(inv, player, kit, 53);
-        }, 20L, 20L); // Atualiza a cada 1 segundo
+        }, 20L, 20L);
 
         updateTasks.put(player.getUniqueId(), task);
     }
@@ -548,32 +558,36 @@ public class KitsView {
         ItemMeta infoMeta = infoItem.getItemMeta();
 
         if (infoMeta != null) {
-            infoMeta.setDisplayName("§e§lInformações do Kit");
+            infoMeta.setDisplayName(plugin.getLangManager().getMessage(player, "kit.preview.info-title"));
 
             List<String> infoLore = new ArrayList<>();
-            infoLore.add("§fNome: " + ColorUtils.colorize(kit.getDisplay()));
+
+            Map<String, String> namePlaceholders = new HashMap<>();
+            namePlaceholders.put("name", ColorUtils.colorize(kit.getDisplay()));
+            infoLore.add(plugin.getLangManager().getMessage(player, "kit.preview.info-name", namePlaceholders));
 
             if (kit.getDelay() > 0) {
-                infoLore.add("§fDelay: " + formatTime(kit.getDelay()));
+                Map<String, String> delayPlaceholders = new HashMap<>();
+                delayPlaceholders.put("delay", formatTime(kit.getDelay()));
+                infoLore.add(plugin.getLangManager().getMessage(player, "kit.preview.info-delay", delayPlaceholders));
             }
 
             long remaining = plugin.getKitManager().getRemainingCooldown(player, kit.getId());
             if (remaining > 0) {
                 infoLore.add("");
-                infoLore.add("§cCooldown: §f" + formatTime(remaining));
+                Map<String, String> cooldownPlaceholders = new HashMap<>();
+                cooldownPlaceholders.put("time", formatTime(remaining));
+                infoLore.add(plugin.getLangManager().getMessage(player, "kit.preview.info-cooldown", cooldownPlaceholders));
             } else if (player.hasPermission(kit.getPermissao()) || kit.getPermissao().isEmpty()) {
                 infoLore.add("");
-                infoLore.add("§a✓ Disponível para resgatar!");
+                infoLore.add(plugin.getLangManager().getMessage(player, "kit.preview.info-available"));
             }
 
             infoMeta.setLore(infoLore);
 
-            // Esconder atributos
             try {
                 infoMeta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES);
-            } catch (Exception e) {
-                // Versão antiga
-            }
+            } catch (Exception ignored) {}
 
             infoItem.setItemMeta(infoMeta);
         }
@@ -609,12 +623,11 @@ public class KitsView {
     }
 
     public void reload() {
-        config = YamlConfiguration.loadConfiguration(configFile);
-        loadMenus();
+        setupMenus();
+        loadAllMenus();
     }
 
     public void shutdown() {
-        // Cancelar todas as tasks ativas
         updateTasks.values().forEach(BukkitTask::cancel);
         updateTasks.clear();
     }

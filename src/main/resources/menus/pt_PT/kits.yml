@@ -1,0 +1,372 @@
+# Menu de Kits - Português (Portugal)
+menus:
+  # Menu Principal de Kits
+  principal:
+    title: "&8Kits"
+    size: 27
+    items:
+      ranks:
+        slot: 11
+        material: DIAMOND
+        name: "&b&lKits - Ranks"
+        lore:
+          - "&7Acessa o menu de kits"
+          - "&7de ranks."
+          - ""
+          - "&aClica para acessar"
+        action:
+          - "[menu] kits-ranks"
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+
+      vips:
+        slot: 13
+        material: EMERALD
+        name: "&6&lKits - VIPs"
+        lore:
+          - "&7Acessa o menu de kits"
+          - "&7VIP."
+          - ""
+          - "&aClica para acessar"
+        action:
+          - "[menu] kits-vips"
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+
+      outros:
+        slot: 15
+        material: IRON_INGOT
+        name: "&e&lKits - Outros"
+        lore:
+          - "&7Acessa o menu de"
+          - "&7outros kits."
+          - ""
+          - "&aClica para acessar"
+        action:
+          - "[menu] kits-outros"
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+
+  # Menu de Kits Outros
+  kits-outros:
+    title: "&8Kits - Outros"
+    size: 27
+    items:
+      basico:
+        slot: 10
+        kit: "basico"
+        material: STONE_SWORD
+        name: "&7Kit Básico"
+        lore:
+          - "&8Itens essenciais para começar"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] basico"
+
+      diario:
+        slot: 11
+        kit: "diario"
+        material: CHEST
+        name: "&aKit Diário"
+        lore:
+          - "&8Resgata todos os dias!"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] diario"
+
+      minerador:
+        slot: 12
+        kit: "minerador"
+        material: IRON_PICKAXE
+        name: "&9Kit Minerador"
+        lore:
+          - "&8Ferramentas para mineração"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] minerador"
+
+      construtor:
+        slot: 13
+        kit: "construtor"
+        material: BRICKS
+        name: "&6Kit Construtor"
+        lore:
+          - "&8Blocos para construção"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] construtor"
+
+      fazendeiro:
+        slot: 14
+        kit: "fazendeiro"
+        material: WHEAT
+        name: "&eKit Fazendeiro"
+        lore:
+          - "&8Sementes e ferramentas"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] fazendeiro"
+
+      pescador:
+        slot: 15
+        kit: "pescador"
+        material: FISHING_ROD
+        name: "&3Kit Pescador"
+        lore:
+          - "&8Equipamento de pesca"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] pescador"
+
+      voltar:
+        slot: 22
+        material: ARROW
+        name: "&cVoltar"
+        lore:
+          - "&7Clique para voltar"
+        action:
+          - "[menu] principal"
+          - "[sound] UI_BUTTON_CLICK"
+
+  # Menu de Kits VIP
+  kits-vips:
+    title: "&8Kits - VIPs"
+    size: 36
+    items:
+      info:
+        slot: 4
+        material: BOOK
+        name: "&e&lComo obter VIP?"
+        lore:
+          - "&7Acesse nossa loja para"
+          - "&7obter benefícios VIP!"
+          - ""
+          - "&6loja.seuservidor.com"
+
+      vip:
+        slot: 11
+        kit: "vip"
+        material: GOLD_INGOT
+        name: "&6Kit VIP"
+        lore:
+          - "&8Kit exclusivo para VIPs"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] vip"
+
+      vipplus:
+        slot: 12
+        kit: "vipplus"
+        material: GOLD_BLOCK
+        name: "&6Kit VIP+"
+        lore:
+          - "&8Kit exclusivo para VIP+"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] vipplus"
+
+      mvp:
+        slot: 14
+        kit: "mvp"
+        material: DIAMOND
+        name: "&bKit MVP"
+        lore:
+          - "&8Kit exclusivo para MVPs"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] mvp"
+
+      mvpplus:
+        slot: 15
+        kit: "mvpplus"
+        material: DIAMOND_BLOCK
+        name: "&bKit MVP+"
+        lore:
+          - "&8Kit exclusivo para MVP+"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] mvpplus"
+
+      voltar:
+        slot: 31
+        material: ARROW
+        name: "&cVoltar"
+        lore:
+          - "&7Clique para voltar"
+        action:
+          - "[menu] principal"
+          - "[sound] UI_BUTTON_CLICK"
+
+  # Menu de Kits de Ranks
+  kits-ranks:
+    title: "&8Kits - Ranks"
+    size: 45
+    items:
+      info:
+        slot: 4
+        material: BOOK
+        name: "&e&lComo subir de rank?"
+        lore:
+          - "&7Jogue no servidor para"
+          - "&7ganhar XP e subir de rank!"
+          - ""
+          - "&7Ranks disponíveis:"
+          - "&8• &7Membro"
+          - "&8• &fIniciante"
+          - "&8• &aExperiente"
+          - "&8• &bAvançado"
+          - "&8• &dExpert"
+          - "&8• &6Mestre"
+          - "&8• &c&lLendário"
+
+      membro:
+        slot: 19
+        kit: "membro"
+        material: LEATHER_CHESTPLATE
+        name: "&7Kit Membro"
+        lore:
+          - "&8Kit inicial para membros"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] membro"
+
+      iniciante:
+        slot: 20
+        kit: "iniciante"
+        material: CHAINMAIL_CHESTPLATE
+        name: "&fKit Iniciante"
+        lore:
+          - "&8Kit para iniciantes"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] iniciante"
+
+      experiente:
+        slot: 21
+        kit: "experiente"
+        material: IRON_CHESTPLATE
+        name: "&aKit Experiente"
+        lore:
+          - "&8Kit para jogadores experientes"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] experiente"
+
+      avancado:
+        slot: 22
+        kit: "avancado"
+        material: GOLDEN_CHESTPLATE
+        name: "&bKit Avançado"
+        lore:
+          - "&8Kit para jogadores avançados"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] avancado"
+
+      expert:
+        slot: 23
+        kit: "expert"
+        material: DIAMOND_CHESTPLATE
+        name: "&dKit Expert"
+        lore:
+          - "&8Kit para experts"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] expert"
+
+      mestre:
+        slot: 24
+        kit: "mestre"
+        material: NETHERITE_CHESTPLATE
+        name: "&6Kit Mestre"
+        lore:
+          - "&8Kit para mestres"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] mestre"
+
+      lendario:
+        slot: 31
+        kit: "lendario"
+        material: ELYTRA
+        name: "&c&lKit Lendário"
+        lore:
+          - "&8Kit supremo para lendas"
+          - ""
+          - "{kit_status}"
+          - ""
+          - "&eBotão-Direito para ver"
+        action:
+          - "[sound] BLOCK_NOTE_BLOCK_PLING"
+          - "[kit] lendario"
+
+      voltar:
+        slot: 40
+        material: ARROW
+        name: "&cVoltar"
+        lore:
+          - "&7Clique para voltar"
+        action:
+          - "[menu] principal"
+          - "[sound] UI_BUTTON_CLICK"
